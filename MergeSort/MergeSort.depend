@@ -1,0 +1,5 @@
+# depslib dependency file v1.0
+1509903041 source:d:\documenti\unitn\ii anno\algoritmi\laboratorio\mergesort\main.cpp
+	<iostream>
+	<fstream>
+

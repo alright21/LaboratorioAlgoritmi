@@ -1,0 +1,8 @@
+# depslib dependency file v1.0
+1510822249 source:d:\documenti\unitn\ii anno\algoritmi\laboratorio\visita\main.cpp
+	<iostream>
+	<fstream>
+	<vector>
+	<queue>
+	<list>
+

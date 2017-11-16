@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1509396904 source:d:\documenti\unitn\ii anno\algoritmi\laboratorio\flatland\main.cpp
+	<iostream>
+	<fstream>
+	<vector>
+

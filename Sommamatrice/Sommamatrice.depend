@@ -1,0 +1,5 @@
+# depslib dependency file v1.0
+1507656616 source:d:\documenti\unitn\ii anno\algoritmi\laboratorio\sommamatrice\main.cpp
+	<iostream>
+	<fstream>
+
