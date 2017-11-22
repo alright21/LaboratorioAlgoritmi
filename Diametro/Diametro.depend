@@ -1,0 +1,8 @@
+# depslib dependency file v1.0
+1510825612 source:d:\documenti\unitn\ii anno\algoritmi\laboratorioalgoritmi\diametro\main.cpp
+	<iostream>
+	<fstream>
+	<vector>
+	<queue>
+	<climits>
+

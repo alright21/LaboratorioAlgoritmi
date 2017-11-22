@@ -1,0 +1,7 @@
+# depslib dependency file v1.0
+1511343420 source:d:\documenti\unitn\ii anno\algoritmi\laboratorioalgoritmi\numcammini\main.cpp
+	<iostream>
+	<fstream>
+	<vector>
+	<queue>
+
