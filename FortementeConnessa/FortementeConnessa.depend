@@ -1,0 +1,15 @@
+# depslib dependency file v1.0
+1511888354 source:d:\documenti\unitn\ii anno\algoritmi\laboratorio\fortementeconnessa\main.cpp
+	<iostream>
+	<fstream>
+	<vector>
+	<queue>
+	<stack>
+
+1511902323 source:d:\documenti\unitn\ii anno\algoritmi\laboratorioalgoritmi\fortementeconnessa\main.cpp
+	<iostream>
+	<fstream>
+	<vector>
+	<queue>
+	<stack>
+
