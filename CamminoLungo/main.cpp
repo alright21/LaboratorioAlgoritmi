@@ -5,6 +5,7 @@
 #include <stack>
 #include <algorithm>
 
+
 using namespace std;
 
 
@@ -19,6 +20,8 @@ struct nodo
     vector <int> vic;
     bool visitato=false;
 };
+
+
 
 vector <nodo> grafo;
 stack <nodo> S;
@@ -76,6 +79,7 @@ void tfdfs(nodo& n,bool visitato[]){
         }
 
     }
+
     //cout << "pusho nodo "<<n.nome<<endl;
     S.push(n);
 }
@@ -127,8 +131,6 @@ int camminoLungo(){
 
         }
     }
-    for (int i=0; i < N; i++){
-        //cout<<"distanza " <<i<<" = " << distanza[i]<<endl;
-    }
+
     return *max_element(distanza,distanza+N);
 }
