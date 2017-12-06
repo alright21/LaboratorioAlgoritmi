@@ -4,11 +4,14 @@ using namespace std;
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include <queue>
+#include <climits>
 
 struct nodo{
 
 	int nome;
 	vector <int> archiUscenti;
+	vector <int> vicini;
 
 };
 
@@ -30,16 +33,21 @@ vector <nodo> grafo;
 vector <arco> listaArchi;
 
 int tempo = 0;
+int N;
+int M;
+const int INFINITO = 1000000; 
 
-int calcolaTempo(int indiceArco);
+
+int calcolaTempo(int indiceArco, int tempoAttuale);
+int trovaArco(int a,int b);
+bool baseRaggiungibile();
 
 
 int main(){
-	ifstream in ("input.txt");
+	ifstream in ("input0.txt");
 	ofstream out ("output.txt");
 
-	int N;
-	int M;
+	
 	in>>N>>M;
 
 	grafo.resize(N);
@@ -57,7 +65,10 @@ int main(){
 		}
 		else{
 			listaArchi[i].attraversabile = true;
+			grafo[a].vicini.push_back(b);
+			grafo[b].vicini.push_back(a);
 		}
+
 		grafo[a].archiUscenti.push_back(i);
 		grafo[b].archiUscenti.push_back(i);
 		listaArchi[i].partenza = a;
@@ -70,19 +81,10 @@ int main(){
 
 
 	}
+	bool raggiungibile = baseRaggiungibile();
+	cout<<"L'arrivo è raggiungibile?"<<raggiungibile<<endl;
 
-	for(int i=0; i <N-1; i++){
-		if(grafo[i].archiUscenti.size()==1){
-
-			listaArchi[grafo[i].archiUscenti[0]].attraversabile = false;
-
-		}
-	}
-
-
-
-
-	/*for(int i=0; i<M;i++){
+	for(int i=0; i<M;i++){
 
 		cout <<listaArchi[i].partenza <<" "<<
 		listaArchi[i].arrivo<<" "<<
@@ -99,10 +101,10 @@ int main(){
 		for(int j=0; j < grafo[i].archiUscenti.size(); j++){
 			cout <<grafo[i].archiUscenti[j]<<" ";
 		}cout <<endl;
-	}*/
+	}
 
 
-	int posizioneAttuale=0;
+	/*int posizioneAttuale=0;
 	while(posizioneAttuale < N-1){
 		int tempoMinimo = 100000;
 		int nodoMinimo;
@@ -127,24 +129,77 @@ int main(){
 			}
 		}
 		
-		//posizioneAttuale = N-1;
+		posizioneAttuale = N-1;
 		posizioneAttuale = nodoMinimo;
 		tempo = tempo + tempoMinimo;
+	}*/
+
+
+
+	bool *inCoda= new bool[N];
+	queue <int> Q;
+	vector <int> tempi;
+	tempi.resize(N);
+
+	for(int i=0; i < N; i++){
+		inCoda[i]=false;
+	}
+	for(int i = 0; i < N; i++){
+		tempi[i] = INFINITO;
 	}
 
-	//cout << "tempo: " << tempo << endl;
+	Q.push(0);
+	tempi[0] = 0;
+	inCoda[0]=true;
+	while(!Q.empty()){
 
-	out << tempo;
+		int nodoAttuale = Q.front();
+		Q.pop();
+		//cout <<"Nodo Attuale = "<<nodoAttuale<<" con tempi = "<<tempi[nodoAttuale]<<endl;
+		inCoda[nodoAttuale]=false;
+		for(int tmpVicino : grafo[nodoAttuale].vicini){
+			int indiceArcoTmp = trovaArco(nodoAttuale, tmpVicino);
+			if(listaArchi[indiceArcoTmp].attraversabile){
+				//cout <<"indiceArco = "<<indiceArcoTmp<<endl;
+				if((tempi[nodoAttuale] + calcolaTempo(indiceArcoTmp, tempi[nodoAttuale])) < tempi[tmpVicino]){
+					tempi[tmpVicino]= tempi[nodoAttuale] + calcolaTempo(indiceArcoTmp, tempi[nodoAttuale]);
+					if(!inCoda[tmpVicino]){
+						//cout <<"pusho in coda = "<<tmpVicino<<endl;
+						Q.push(tmpVicino);
+						inCoda[tmpVicino]=true;
+					}
+				}
+			}
+
+			/*for(int i=0;i<N;i++){
+				cout <<"tempo "<<i<<" "<<tempi[i]<<" ";
+			}cout<<endl;*/
+			//cout <<"tempo max = "<<tempi[N-1]<<endl;
+			//usleep(500);
+		}
+	}
+
+	delete[] inCoda;
+
+	//cout << "tempo: " << tempi[N-1] << endl;
+	if(tempi[N-1] == INFINITO){
+		out << -1;
+	}
+	else
+		out << tempi[N-1];
+
 	return 0;
 
 }
 
 
-int calcolaTempo(int indiceArco){
+int calcolaTempo(int indiceArco, int tempoAttuale){
 
-	int tempoFiltrato = tempo-listaArchi[indiceArco].primoSpegnimento;
+	int tempoFiltrato = tempoAttuale-listaArchi[indiceArco].primoSpegnimento;
 
 	int i=0;
+
+
 
 	while (tempoFiltrato>0){
 		if(i%2==0){
@@ -170,3 +225,25 @@ int calcolaTempo(int indiceArco){
 	}
 }
 
+
+int trovaArco(int a,int b){
+
+	for(int i=0; i < M; i++){
+		if((listaArchi[i].partenza==a && listaArchi[i].arrivo==b)||(listaArchi[i].partenza==b && listaArchi[i].arrivo==a)){
+			return i;
+		}
+	}
+	return -1;
+}
+
+
+bool baseRaggiungibile(){
+
+
+	for(int i=0; i<M;i++){
+		if((listaArchi[i].partenza==N-1) || (listaArchi[i].arrivo==N-1)){
+			return true;
+		}
+	}
+	return false;
+}
