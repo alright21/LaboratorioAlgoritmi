@@ -16,7 +16,7 @@ int main()
 
 {
 
-    ifstream in("input.txt");
+    ifstream in("input1.txt");
     ofstream out("output.txt");
 
     in>>size;

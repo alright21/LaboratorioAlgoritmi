@@ -1,0 +1,5 @@
+# depslib dependency file v1.0
+1520158468 source:d:\documenti\unitn\ii anno\algoritmi\laboratorioalgoritmi\zaino\main.cpp
+	<iostream>
+	<fstream>
+
